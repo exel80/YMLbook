@@ -2,9 +2,11 @@ YMLbook
 =======
 
 **YMLbook is simple book customizing / writing plugin.**
+
 **You can easily write books as much you want. Example your server rules, admin and moderator list, donation links, tutorial how to use game/commands and everything what you want. Just write book information to books.yml and players can copy it and read it.**
 
 http://dev.bukkit.org/bukkit-plugins/ymlbook/
+
 http://exel80.me/
 
 Features
