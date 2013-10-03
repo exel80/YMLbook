@@ -18,5 +18,6 @@ Features
 * Permissions & commands.
 
 
-Read more about plugin from bukkit dev site, http://dev.bukkit.org/bukkit-plugins/ymlbook/
+Read more about this plugin from bukkit dev site, http://dev.bukkit.org/bukkit-plugins/ymlbook/
+
 thank you for reading me :)
