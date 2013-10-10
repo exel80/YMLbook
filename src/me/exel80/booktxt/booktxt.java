@@ -8,12 +8,14 @@ import java.util.logging.Logger;
 
 
 
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -48,108 +50,148 @@ public class booktxt extends JavaPlugin implements Listener {
 	}
 		
 	public boolean onCommand(CommandSender sender, Command cmd, String lable, String[] args) {
-		Player p = (Player) sender;	
 		File Pconf = new File(this.getDataFolder(), "config.yml");
 		File Pbook = new File(this.getDataFolder(), "books.yml");
 		
-		if (lable.equalsIgnoreCase("bookreload") && p.hasPermission("ymlbook.reload")) { //COMMAND: /bookreload
-			try {
-				this.getConfig().load(Pconf);
-				this.getConfig().load(Pbook);
-				sendMessages(getConfig("messages", "reloaded"), p);
-			}
-			catch (Exception e) { if(p.isOp()){sendMessages("Can't reload config. Check output, http://yaml-online-parser.appspot.com/", p);} }
-			return true;
-		}/*  else if (lable.equalsIgnoreCase("booklist") && p.hasPermission("ymlbook.booklist")) { //COMMAND: /booklist
-			try {
+		// PLAYER
+		if(sender instanceof Player)
+		{
+			Player p = (Player) sender;
+			if (lable.equalsIgnoreCase("bookreload") && p.hasPermission("ymlbook.reload")) { //COMMAND: /bookreload
+				try {
+					this.getConfig().load(Pconf);
+					this.getConfig().load(Pbook);
+					sendMessages(getConfig("messages", "reloaded"), p);
+				}
+				catch (Exception e) { if(p.isOp()){sendMessages("Can't reload config. Check output, http://yaml-online-parser.appspot.com/", p);} }
+				return true;
+			}/*  else if (lable.equalsIgnoreCase("booklist") && p.hasPermission("ymlbook.booklist")) { //COMMAND: /booklist
+				try {
+					if (!Pconf.exists() && !Pbook.exists()) { sendMessages(getConfig("messages", "notfound"), p); }
+						else 
+						{
+							sendMessages( getConfig("messages", "booklist"), p);
+							
+							String getMessage = this.getConfig().getString("book");
+							p.sendMessage(getMessage);
+							String getMessage2 = this.getConfig().getName().toString();
+							p.sendMessage(getMessage2);
+						}
+					}
+					catch (Exception e) { sendMessages(getConfig("messages", "bookgiveusage"), p); }
+					return true;
+			} else if (lable.equalsIgnoreCase("bookcopy") && p.hasPermission("ymlbook.bookcopy")) { //COMMAND: /bookcopy <name>
+					try {
+						if (!Pconf.exists() && !Pbook.exists()) { sendMessages(getConfig("messages", "notfound"), p); }
+						else
+						{
+							if (p.hasPermission("ymlbook.book.*") || p.hasPermission("ymlbook.book." + args[0]))
+							{
+								sendMessages(getConfig("messages", "bookcopy"), p);
+							}
+							else { sendMessages(getConfig("messages", "bookcopyusage"), p); }
+						}
+					} catch (Exception e) { sendMessages(getConfig("messages", "bookcopy"), p); }
+					return true;
+			}*/ else if (lable.equalsIgnoreCase("bookgive") && p.hasPermission("ymlbook.bookgive")) { //COMMAND: /bookgive <player> <name>
+				try {
+					if (!Pconf.exists() && !Pbook.exists()) { sendMessages(getConfig("messages", "notfound"), p); }
+						else 
+						{
+							strtitle = getBook(args[1] + ".title");
+							strauthor = getBook(args[1] + ".author");
+							strtext = getBook(args[1] + ".text");
+							strlore = getBook(args[1] + ".lore");
+							
+							if (p.hasPermission("ymlbook.book.*") || p.hasPermission("ymlbook.book." + args[0]))
+							{
+								if (p.hasPermission("ymlbook.bookgive"))
+								{
+									try 
+									{
+										Player give = (Bukkit.getServer().getPlayer(args[0]));
+										if (give.isOnline())
+										{
+											setPages(book, strtext, strtitle, strauthor, strlore);
+											give.getInventory().addItem(book);
+											sendMessages(getConfig("messages", "getbook"), (Player) give);
+											sendMessages(getConfig("messages", "bookgive"), p);
+										}
+									}
+									catch (Exception e) { e.getStackTrace(); }
+								}
+							}
+							else { sendMessages(getConfig("messages", "nopermission"), p); }
+						}
+					}
+					catch (Exception e) { sendMessages(getConfig("messages", "bookgiveusage"), p); }
+				return true;
+			} else if (lable.equalsIgnoreCase("book") && p.hasPermission("ymlbook.use")) { //COMMAND: /book <name>
+				try {
 				if (!Pconf.exists() && !Pbook.exists()) { sendMessages(getConfig("messages", "notfound"), p); }
 					else 
 					{
-						sendMessages( getConfig("messages", "booklist"), p);
+						strtitle = getBook(args[0] + ".title");
+						strauthor = getBook(args[0] + ".author");
+						strtext = getBook(args[0] + ".text");
+						strlore = getBook(args[0] + ".lore");
 						
-						String getMessage = this.getConfig().getString("book");
-						p.sendMessage(getMessage);
-						String getMessage2 = this.getConfig().getName().toString();
-						p.sendMessage(getMessage2);
-					}
-				}
-				catch (Exception e) { sendMessages(getConfig("messages", "bookgiveusage"), p); }
-				return true;
-		} else if (lable.equalsIgnoreCase("bookcopy") && p.hasPermission("ymlbook.bookcopy")) { //COMMAND: /bookcopy <name>
-				try {
-					if (!Pconf.exists() && !Pbook.exists()) { sendMessages(getConfig("messages", "notfound"), p); }
-					else
-					{
 						if (p.hasPermission("ymlbook.book.*") || p.hasPermission("ymlbook.book." + args[0]))
 						{
-							sendMessages(getConfig("messages", "bookcopy"), p);
-						}
-						else { sendMessages(getConfig("messages", "bookcopyusage"), p); }
+							try
+							{
+								setPages(book, strtext, strtitle, strauthor, strlore);
+								p.getInventory().addItem(book);
+							}
+							catch (Exception e) { e.getStackTrace(); }
+						} else { sendMessages( getConfig("messages", "nopermission"), p); }
 					}
-				} catch (Exception e) { sendMessages(getConfig("messages", "bookcopy"), p); }
+				}
+				catch (Exception e) { sendMessages(getConfig("messages", "usage"), p); }
+			  return true;
+			} else { sendMessages(getConfig("messages", "nopermission"), p); }
+		return true;
+		}
+		
+		
+		// CONSOLE		
+		else if (sender instanceof ConsoleCommandSender)
+		{
+			if (lable.equalsIgnoreCase("bookreload")) { //COMMAND: /bookreload
+				try {
+					this.getConfig().load(Pconf);
+					this.getConfig().load(Pbook);
+					log.info(getConfig("messages", "reloaded"));
+				}
+				catch (Exception e) { log.info("Can't reload config. Check output, http://yaml-online-parser.appspot.com/");}
 				return true;
-		}*/ else if (lable.equalsIgnoreCase("bookgive") && p.hasPermission("ymlbook.bookgive")) { //COMMAND: /bookgive <player> <name>
-			try {
-				if (!Pconf.exists() && !Pbook.exists()) { sendMessages(getConfig("messages", "notfound"), p); }
+			} else if (lable.equalsIgnoreCase("bookgive")) { //COMMAND: /bookgive <player> <name>
+				try
+				{
+					if (!Pconf.exists() && !Pbook.exists()) { log.info(getConfig("messages", "notfound")); }
 					else 
 					{
 						strtitle = getBook(args[1] + ".title");
 						strauthor = getBook(args[1] + ".author");
 						strtext = getBook(args[1] + ".text");
 						strlore = getBook(args[1] + ".lore");
-						
-						if (p.hasPermission("ymlbook.book.*") || p.hasPermission("ymlbook.book." + args[0]))
+						try
 						{
-							if (p.hasPermission("ymlbook.bookgive"))
+							Player give = (Bukkit.getServer().getPlayer(args[0]));
+							if (give.isOnline())
 							{
-								try 
-								{
-										Player give = (Bukkit.getServer().getPlayer(args[0]));
-										if (give.isOnline())
-										{
-											setPages(book, strtext, strtitle, strauthor, strlore);		
-											
-											give.getInventory().addItem(book);
-											
-											sendMessages(getConfig("messages", "getbook"), (Player) give);
-											sendMessages(getConfig("messages", "bookgive"), p);
-										}
-								}
-								catch (Exception e) { e.getStackTrace(); }
+								setPages(book, strtext, strtitle, strauthor, strlore);
+								give.getInventory().addItem(book);
+								sendMessages(getConfig("messages", "getbook"), (Player) give);
+								log.info(getConfig("messages", "bookgive"));
 							}
-						}
-						else { sendMessages(getConfig("messages", "nopermission"), p); }
+						} catch (Exception e) { e.getStackTrace(); }
 					}
-				}
-				catch (Exception e) { sendMessages(getConfig("messages", "bookgiveusage"), p); }
+				} catch (Exception e) { log.info(getConfig("messages", "bookgiveusage")); }
 				return true;
-		} else if (lable.equalsIgnoreCase("book") && p.hasPermission("ymlbook.use")) { //COMMAND: /book <name>
-			try {
-			if (!Pconf.exists() && !Pbook.exists()) { sendMessages(getConfig("messages", "notfound"), p); }
-				else 
-				{
-					strtitle = getBook(args[0] + ".title");
-					strauthor = getBook(args[0] + ".author");
-					strtext = getBook(args[0] + ".text");
-					strlore = getBook(args[0] + ".lore");
-					
-					if (p.hasPermission("ymlbook.book.*") || p.hasPermission("ymlbook.book." + args[0]))
-					{
-						try 
-						{							
-							setPages(book, strtext, strtitle, strauthor, strlore);		
-								
-							p.getInventory().addItem(book);
-						}
-						catch (Exception e) { e.getStackTrace(); }
-					}
-					else { sendMessages( getConfig("messages", "nopermission"), p); }
-				}
 			}
-			catch (Exception e) { sendMessages(getConfig("messages", "usage"), p); }
-			return true;
-		} else { sendMessages(getConfig("messages", "nopermission"), p); }
-	return true;
+		}
+		return true;
 	}
 	
     public ItemStack setPages(ItemStack book, String str, String title, String author, String strlore){

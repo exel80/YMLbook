@@ -1,5 +1,5 @@
 name: "YMLbook"
-version: "1.5.2"
+version: "1.6"
 main: me.exel80.booktxt.booktxt
 description: "YMLbook"
 commands:
