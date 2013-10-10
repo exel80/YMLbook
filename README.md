@@ -10,6 +10,7 @@ Features
 * Really easy to use and setup.
 * Can make sign which give the book. http://dev.bukkit.org/bukkit-plugins/ymlbook/images/5-ymlbook-sign/
 * Admin command, give the book to player.
+* **bookgive** and **bookreload** commands work now with console.
 * http://minecraftwiki.net/wiki/Formatting_codes works. **(Dont use alt codes)**
 * Give permission each book //(ymlbook.book.BOOKNAME)//.
 * Automatically make new page //(one page can be 255 length)//.
