@@ -1,6 +1,6 @@
 name: "YMLbook"
 version: "1.6"
-main: me.exel80.booktxt.booktxt
+main: me.exel80.YMLbook.bookmain
 description: "YMLbook"
 commands:
    book:
@@ -8,6 +8,8 @@ commands:
    bookreload:
       description: Reload YMLbook config.
    bookgive:
+      description: Give book to other player.
+   booklist:
       description: Give book to other player.
 permissions:
   ymlbook.*:
@@ -18,6 +20,7 @@ permissions:
         ymlbook.book.*: true
         ymlbook.signbook: true
         ymlbook.bookgive: true
+        ymlbook.booklist: true
   ymlbook.use:
       description: Permission to use /book command.
       default: true
@@ -32,4 +35,7 @@ permissions:
       default: op
   ymlbook.signbook:
       description: Can make sign which gives the book.
+      default: op
+  ymlbook.booklist:
+      description: All books to list.
       default: op
