@@ -16,6 +16,7 @@ Features
 * Automatically make new page //(one page can be 255 length)//.
 * You can full customization messages.
 * Can add lore text to the book.
+* Can see all books with one command.
 * Permissions & commands.
 
 
