@@ -22,4 +22,4 @@ Features
 
 Read more about this plugin from bukkit dev site, http://dev.bukkit.org/bukkit-plugins/ymlbook/
 
-thank you for reading me :)
+Thank you for reading me :)
