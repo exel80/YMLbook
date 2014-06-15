@@ -1,4 +1,4 @@
-PlayerRules
+YMLBook
 =======
 YMLbook is simple book customizing / writing plugin.
 
