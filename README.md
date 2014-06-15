@@ -8,7 +8,7 @@ Features
 =======
 * You can make as many books you want.
 * Really easy to use and setup.
-* Can make sign which give the book. [[http://dev.bukkit.org/bukkit-plugins/ymlbook/images/5-ymlbook-sign/|(picture)]]
+* Can make sign which give the book.
 * Admin command, give the book to player.
 * Can customize every world own start books.
 * Config variable(s) -> {BOOKS} //(Show all books name from books.yml)//
