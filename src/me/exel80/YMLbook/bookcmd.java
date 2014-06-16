@@ -154,7 +154,7 @@ public class bookcmd implements CommandExecutor, Listener {
     	
     	List<String> lore = new ArrayList<String>();
     	
-    	if(strlore != "false") {
+    	if(!strlore.equals("false")) {
 	    	try {
 				for (int i = 0; i < fullLore; i++) {
 					lore.add(strlore.substring(40 * i, 40 * (i + 1)));
