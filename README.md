@@ -21,7 +21,7 @@ Features
 * Can see all books with one command.
 * Permissions & commands.
 
-
-Read more about this plugin from bukkit dev site, http://dev.bukkit.org/bukkit-plugins/ymlbook/
+YMLBook support continue in Spigotmc.org site, https://spigotmc.org/resources/ymlbook.8698/
+Old Bukkit dev site, http://dev.bukkit.org/bukkit-plugins/ymlbook/
 
 Thank you for reading me :)
