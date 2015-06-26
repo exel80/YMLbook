@@ -1,6 +1,6 @@
 name: "YMLbook"
-version: "1.8.1"
-main: me.exel80.YMLbook.bookmain
+version: "1.9"
+main: me.exel80.YMLbook.BookMain
 description: "YMLbook"
 commands:
    book:
@@ -10,7 +10,7 @@ commands:
    bookgive:
       description: Give book to other player.
    booklist:
-      description: Give book to other player.
+      description: Get all books name.
 permissions:
   ymlbook.*:
       description: Allow all.
